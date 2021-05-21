@@ -16,15 +16,15 @@
 package net.codingwell.scalaguice
 
 import org.scalatest.{Matchers, WordSpec}
-
 import com.google.inject._
+import scala.util.Try
 
 class BindingExtensionsSpec extends WordSpec with Matchers {
 
   import BindingExtensions._
 
-  def module(body: Binder => Unit) =  new Module {
-      def configure(binder: Binder) = body(binder)
+  def module(body: Binder => Unit): Module = new Module {
+    def configure(binder: Binder): Unit = body(binder)
   }
 
   "Binding extensions" should {
@@ -81,6 +81,19 @@ class BindingExtensionsSpec extends WordSpec with Matchers {
         binder.bindType[Testing.SomeClazzWithAugmentation].toInstance(new SomeClazz with Augmentation)
       } getInstance classOf[SomeClazz]
       inst.get should equal("String with trait augmentation")
+    }
+
+    "allow binding with Nothing type" in {
+      import net.codingwell.scalaguice.KeyExtensions._
+
+      val e: Either[Try[Nothing], Nothing] = Left(Try(throw new Exception))
+
+      val inst = Guice createInjector module { binder =>
+        binder
+          .bindType[Either[Try[Nothing], Nothing]]
+          .toInstance(e)
+      } getInstance typeLiteral[Either[Try[Nothing], Nothing]].toKey
+      inst should equal(e)
     }
   }
 }

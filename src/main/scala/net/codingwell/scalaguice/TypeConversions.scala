@@ -13,6 +13,7 @@ import scala.reflect.runtime.universe.{Type => ScalaType, _}
   */
 private [scalaguice] object TypeConversions {
   private val anyType = typeOf[Any]
+  private val nothingType = typeOf[Nothing]
 
   object ArrayType {
     private val arraySymbol = symbolOf[Array[_]]
@@ -55,12 +56,13 @@ private [scalaguice] object TypeConversions {
     }
 
   }
-  
+
   //https://github.com/scala/scala/blob/98b9a1c19ba2b7b342bc9b838628b86d00276540/src/reflect/scala/reflect/internal/Types.scala#L31
 
   def scalaTypeToJavaType(scalaType: ScalaType, mirror: Mirror, allowPrimative: Boolean = false): JavaType = {
     scalaType.dealias match {
-      case `anyType` => classOf[java.lang.Object]
+      case `anyType`     => classOf[java.lang.Object]
+      case `nothingType` => classOf[scala.runtime.Nothing$]
       case ExistentialType(_, underlying) => scalaTypeToJavaType(underlying, mirror)
       case ArrayType(argType) => arrayOf(scalaTypeToJavaType(argType, mirror, allowPrimative=true))
       case ClassType(symbol, args) => {
