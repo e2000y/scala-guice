@@ -1,3 +1,9 @@
+5.0.1
+-----
+2021-05-22
+
+* Fix not being able to bind a generic containing the Nothing type
+
 5.0.0
 -----
 2021-03-08
