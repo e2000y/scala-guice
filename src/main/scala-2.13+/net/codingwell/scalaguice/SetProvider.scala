@@ -33,7 +33,7 @@ import scala.jdk.CollectionConverters._
  */
 class SetProvider[T] (val source:Key[JSet[T]]) extends ProviderWithDependencies[im.Set[T]] {
 
-  @Inject() var injector:Injector = null
+  @Inject() var injector:Injector = _
 
   def get():im.Set[T] = {
     injector.getInstance( source ).asScala.toSet[T]
