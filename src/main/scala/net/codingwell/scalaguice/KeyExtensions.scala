@@ -16,8 +16,8 @@
 package net.codingwell.scalaguice
 
 import com.google.inject._
-import java.lang.annotation.{Annotation => JAnnotation}
 import com.google.inject.name.Names
+import java.lang.annotation.{Annotation => JAnnotation}
 import scala.reflect.ClassTag
 
 object KeyExtensions {

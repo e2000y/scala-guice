@@ -19,11 +19,9 @@ package net.codingwell.scalaguice
 import com.google.common.collect.ImmutableSet
 import com.google.inject._
 import com.google.inject.spi._
-
 import java.util.{Set => JSet}
-
-import scala.collection.JavaConverters._
-import scala.collection.{ immutable => im }
+import scala.collection.{immutable => im}
+import scala.jdk.CollectionConverters._
 
 /**
  * Provider for a Scala Immutable Set from a Java Set.

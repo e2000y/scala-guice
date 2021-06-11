@@ -1,5 +1,6 @@
 /*
  *  Copyright 2010-2014 Benjamin Lings
+ *  Author: Thomas Suckow
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,29 +16,30 @@
  */
 package net.codingwell.scalaguice
 
-import com.google.common.base.Optional
 import com.google.common.collect.ImmutableSet
-import com.google.inject.spi.{Dependency, ProviderWithDependencies}
-import com.google.inject.{Inject, Injector, Key}
-import java.util
+import com.google.inject._
+import com.google.inject.spi._
+import java.util.{Set => JSet}
+import scala.collection.JavaConverters._
+import scala.collection.{immutable => im}
 
 /**
- * Provider for Scala's Option from Guava's Optional.
+ * Provider for a Scala Immutable Set from a Java Set.
  *
  * Example:
  * {{{
- * .toProvider(new OptionProvider[T](Key.get(typeLiteral[Optional[T]])))
+ * .toProvider( new SetProvider[T]( Key.get( typeLiteral[JSet[T]] ) ) )
  * }}}
  */
-class OptionProvider[T] (source: Key[Optional[T]]) extends ProviderWithDependencies[Option[T]] {
-  @Inject() private[this] val injector: Injector = null
+class SetProvider[T] (val source:Key[JSet[T]]) extends ProviderWithDependencies[im.Set[T]] {
 
-  override def get(): Option[T] = {
-    val opt = injector.getInstance(source)
-    if (opt.isPresent) Some(opt.get) else None
+  @Inject() var injector:Injector = null
+
+  def get():im.Set[T] = {
+    injector.getInstance( source ).asScala.toSet[T]
   }
 
-  override def getDependencies: util.Set[Dependency[_]] = {
-    ImmutableSet.of(Dependency.get(source))
+  def getDependencies = {
+    ImmutableSet.of( Dependency.get( source ) )
   }
 }
