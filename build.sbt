@@ -15,7 +15,7 @@ libraryDependencies ++= Seq(
   "org.scala-lang" % "scala-reflect" % scalaVersion.value
 )
 
-libraryDependencies += "org.scalatest" %% "scalatest" % "3.1.2" % "test"
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.9" % "test"
 
 libraryDependencies += "com.google.code.findbugs" % "jsr305" % "3.0.2" % "compile"
 
