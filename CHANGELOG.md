@@ -1,3 +1,11 @@
+5.0.2
+-----
+2021-09-18
+
+* Update to Scala 2.13.6 (Thanks cacoco)
+* Update to Scala 2.12.15
+* Update sbt to improve support for modern scala
+
 5.0.1
 -----
 2021-05-22
